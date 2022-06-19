@@ -106,6 +106,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "PersonalWebsite:build:production",
+            "firebaseProject": "johannes-nicholas",
+            "firebaseHostingSite": "johannes-nicholas"
+          }
         }
       }
     }

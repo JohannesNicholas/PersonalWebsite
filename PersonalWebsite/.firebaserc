@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "johannes-nicholas": {
+      "hosting": {
+        "PersonalWebsite": [
+          "johannes-nicholas"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "johannes-nicholas"
+  }
+}
