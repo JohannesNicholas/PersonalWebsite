@@ -13,11 +13,14 @@ path {
 .tree {
   position: fixed;
   bottom: 0;
-  height: 90vh;
+  width: 90vw;
+  height: min(90vh, 90vw);
   display: flex;
   justify-content: center;
-  width: 100vw;
+  border: 1px;
+  border-color: black;
 }
+
 
 .background {
   height: 1000vh;
