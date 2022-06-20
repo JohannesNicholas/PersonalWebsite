@@ -16,16 +16,36 @@ export class AppComponent implements AfterViewInit  {
 
 
   ngAfterViewInit(): void {
-    var path : SVGPathElement = this.pathElem.nativeElement;
-    var pathLength = path.getTotalLength();
 
-    path.style.strokeDasharray = pathLength + ' ' + pathLength;
-    path.style.strokeDashoffset = pathLength.toString();
+    var paths : SVGPathElement[] = [];
+    this.pathElems!.forEach(pathElem => {
+      paths.push(pathElem.nativeElement);
+    });
+
+
+    //get the longest path length
+    var longestPath = 0;
+    paths.forEach(path => {
+      if (path.getTotalLength() > longestPath) {
+        longestPath = path.getTotalLength();
+      }
+    });
+
+    paths.forEach(path => {
+      path.style.strokeDasharray = longestPath + ' ' + longestPath;
+      path.style.strokeDashoffset = longestPath.toString();
+    })
+
+    
+
+    
 
     window.addEventListener('scroll', () => {
       var scrollPercentage = (document.documentElement.scrollTop + document.body.scrollTop) / (document.documentElement.scrollHeight - document.documentElement.clientHeight);
-      var drawLength = pathLength * scrollPercentage;
-      path.style.strokeDashoffset = (pathLength - drawLength).toString();
+      paths.forEach(path => {
+        var drawLength = longestPath * scrollPercentage;
+        path.style.strokeDashoffset = (longestPath - drawLength).toString();
+      })
     })
 
   }
