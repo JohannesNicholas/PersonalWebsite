@@ -34,3 +34,16 @@ path {
   fill: rgb(37, 118, 211);
   opacity: 0.5;
 }
+
+.importantText {
+  fill:white;
+}
+
+.nonImportantText {
+  fill:white;
+  opacity: 0.3;
+}
+.nonImportantText:hover {
+  opacity: 1;
+  // todo change to text and hover stuff
+}
