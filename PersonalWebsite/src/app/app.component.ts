@@ -48,6 +48,21 @@ export class AppComponent implements AfterViewInit  {
     })
 
     
+    //set the correct transform location for each leaf
+    var leaves = this.leavesGroup.nativeElement.children;
+    for (var i = 0; i < leaves.length; i++){
+      //set the transform origin to the center of the individual leaf
+      //get location of leaf
+      var leafLocation = leaves[i].getBoundingClientRect();
+      //get parents size
+      var parentSize = this.leavesGroup.nativeElement.getBoundingClientRect();
+      
+      var xLocation = ((leafLocation.x + leafLocation.width/2) / parentSize.width * 100)
+      var yLocation = ((leafLocation.y + leafLocation.height) / parentSize.height * 50) //I don't know why these numbers work but they do???
+
+      leaves[i].style.transformOrigin =  xLocation + '% ' + yLocation + '%'//leafLocation.x + ' ' + leafLocation.y;
+    }
+
 
     
     //on scroll change
@@ -55,18 +70,26 @@ export class AppComponent implements AfterViewInit  {
       var scrollPercentage = (document.documentElement.scrollTop + document.body.scrollTop) / (document.documentElement.scrollHeight - document.documentElement.clientHeight);
       
       //branches
-      var drawLength = longestPath - longestPath * Math.min(scrollPercentage / 0.5, 1);
+      var drawLength = longestPath - longestPath * Math.min(scrollPercentage / 0.7, 1);
       //drawLength = Math.max(drawLength, longestPath)
       paths.forEach(path => {
         path.style.strokeDashoffset = drawLength.toString();
       })
 
-      console.log({scrollPercentage});
+      //console.log({scrollPercentage});
 
       //leaves
       if (scrollPercentage > 0.6){
         var opacity = Math.min((scrollPercentage - 0.6) / 0.3, 1)
         this.leavesGroup.nativeElement.style.opacity = opacity;
+
+        //scale up individual leaves
+        var leaves = this.leavesGroup.nativeElement.children;
+        for (var i = 0; i < leaves.length; i++){
+          leaves[i].style.transform = 'scale(' + (0.5 + opacity/2) + ')';
+        }
+
+        
       }
       else {
         this.leavesGroup.nativeElement.style.opacity = 0;
@@ -75,8 +98,8 @@ export class AppComponent implements AfterViewInit  {
       //everything else
       if (scrollPercentage > 0.80){
         var opacity = (scrollPercentage - 0.8) /0.2
-        this.importantTextGroup.nativeElement.style.opacity = opacity;
-        this.nonImportantTextGroup.nativeElement.style.opacity = opacity;
+        //this.importantTextGroup.nativeElement.style.opacity = opacity;
+        //this.nonImportantTextGroup.nativeElement.style.opacity = opacity;
         this.socialsGroup.nativeElement.style.opacity = opacity;
       }
       else {
